@@ -3,12 +3,17 @@ import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit/dist/mapBuilders';
 
 import { RootState } from '../../app/store';
-import { checkBreed } from '../../buisnessLogic';
-import { parseImgFile } from '../../buisnessLogic/parse-img-file';
+import { checkBreed, parseImgFile } from '../../buisnessLogic';
+
+interface Breed {
+  className: string;
+  probability: number;
+}
+type Image = string | null;
 
 export interface BreedCheckerState {
-  breeds: string[];
-  img: string | null;
+  breeds: Breed[];
+  img: Image;
   status: 'no-file' | 'checking' | 'checked' | 'failed';
 }
 
@@ -36,10 +41,7 @@ export const breedCheckerSlice = createSlice({
         loadFile.fulfilled,
         (
           state: BreedCheckerState,
-          action: PayloadAction<{
-            breeds: string[];
-            img: string | null;
-          }>,
+          action: PayloadAction<Pick<BreedCheckerState, 'breeds' | 'img'>>,
         ) => {
           state.breeds = action.payload.breeds;
           state.img = action.payload.img;
@@ -59,5 +61,12 @@ export const breedCheckerSlice = createSlice({
 
 export default breedCheckerSlice.reducer;
 
-export const breedsSelector = (state: RootState) => state.breedChecker.breeds;
+const byProbability = (first: Breed, second: Breed) =>
+  first.probability - second.probability;
+
+export const breedsSelector = (state: RootState) =>
+  Array.from<Breed>(state.breedChecker.breeds)
+    .sort(byProbability)
+    .map(({ className }: Breed) => className);
+
 export const imgSelector = (state: RootState) => state.breedChecker.img;

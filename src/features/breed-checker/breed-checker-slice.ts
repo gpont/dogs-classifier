@@ -3,7 +3,7 @@ import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit/dist/mapBuilders';
 
 import { RootState } from '../../app/store';
-import { checkBreed, parseImgFile } from '../../buisnessLogic';
+import { checkBreed, parseImgFile } from '../../businessLogic';
 
 interface Breed {
   className: string;
@@ -14,13 +14,13 @@ type Image = string | null;
 export interface BreedCheckerState {
   breeds: Breed[];
   img: Image;
-  status: 'no-file' | 'checking' | 'checked' | 'failed';
+  status: Status;
 }
 
 const initialState: BreedCheckerState = {
   breeds: [],
   img: null,
-  status: 'no-file',
+  status: 'idle',
 };
 
 export const loadFile = createAsyncThunk(
@@ -31,11 +31,14 @@ export const loadFile = createAsyncThunk(
   }),
 );
 
+const byProbability = (first: Breed, second: Breed) =>
+  second.probability - first.probability;
+
 export const breedCheckerSlice = createSlice({
   extraReducers: (builder: ActionReducerMapBuilder<BreedCheckerState>) => {
     builder
       .addCase(loadFile.pending, (state: BreedCheckerState) => {
-        state.status = 'checking';
+        state.status = 'loading';
       })
       .addCase(
         loadFile.fulfilled,
@@ -43,9 +46,14 @@ export const breedCheckerSlice = createSlice({
           state: BreedCheckerState,
           action: PayloadAction<Pick<BreedCheckerState, 'breeds' | 'img'>>,
         ) => {
-          state.breeds = action.payload.breeds;
+          state.breeds = Array.from<Breed>(action.payload.breeds)
+            .sort(byProbability)
+            .map(breed => ({
+              className: breed.className.toLowerCase(),
+              probability: breed.probability,
+            }));
           state.img = action.payload.img;
-          state.status = 'checked';
+          state.status = 'success';
         },
       )
       .addCase(loadFile.rejected, (state: BreedCheckerState) => {
@@ -61,12 +69,8 @@ export const breedCheckerSlice = createSlice({
 
 export default breedCheckerSlice.reducer;
 
-const byProbability = (first: Breed, second: Breed) =>
-  first.probability - second.probability;
-
 export const breedsSelector = (state: RootState) =>
-  Array.from<Breed>(state.breedChecker.breeds)
-    .sort(byProbability)
-    .map(({ className }: Breed) => className);
+  state.breedChecker.breeds.map(({ className }: Breed) => className);
 
 export const imgSelector = (state: RootState) => state.breedChecker.img;
+export const statusSelector = (state: RootState) => state.breedChecker.status;

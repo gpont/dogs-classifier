@@ -30,3 +30,5 @@ export const dogsApi = createApi({
   }),
   reducerPath: 'dogsApi',
 });
+
+export const { useGetDogsByBreedQuery, usePrefetch } = dogsApi;

@@ -1,5 +1,5 @@
 type Url = string;
-type Status = 'success' | 'failure';
+type BreedStatus = 'success' | 'failure';
 
 declare namespace ApiDog {
   export namespace Breed {
@@ -9,7 +9,7 @@ declare namespace ApiDog {
 
     export interface IResponse {
       message: Url[];
-      status: Status;
+      status: BreedStatus;
     }
   }
 }

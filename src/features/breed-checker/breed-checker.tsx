@@ -1,6 +1,8 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { DragAndDrop } from '../../components/drag-and-drop';
+import { FileInput } from '../../components/file-input';
 import { breedsSelector, imgSelector, loadFile } from './breed-checker-slice';
 
 export const BreedChecker: React.FC = () => {
@@ -8,26 +10,12 @@ export const BreedChecker: React.FC = () => {
   const breeds = useAppSelector(breedsSelector);
   const loadedImg = useAppSelector(imgSelector);
 
-  const fileRef = useRef<HTMLInputElement | null>(null);
-
-  const onAddFile = useCallback(() => {
-    if (
-      fileRef.current?.files !== null &&
-      fileRef.current?.files !== undefined &&
-      fileRef.current.files.length > 0
-    ) {
-      dispatch(loadFile(fileRef.current.files[0]));
-    }
-  }, [fileRef.current]);
+  const onAddFile = useCallback((file: File) => dispatch(loadFile(file)), []);
 
   return (
     <div>
-      <input
-        type="file"
-        accept="image/png, image/jpeg"
-        onChange={onAddFile}
-        ref={fileRef}
-      />
+      <FileInput onChange={onAddFile} />
+      <DragAndDrop onDropFile={onAddFile} />
 
       {loadedImg === null ? null : <img src={loadedImg} />}
 

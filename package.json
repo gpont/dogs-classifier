@@ -1,8 +1,44 @@
 {
-  "dependencies": {
-    "axios": "^0.27.2"
+  "name": "dogs-classifier",
+  "description": "Dogs Classifier",
+  "repository": "https://github.com/gpont/dogs-classifier",
+  "version": "1.0.0",
+  "scripts": {
+    "format": "prettier --check \"**/*.{css,js,json,md,ts,yml,yaml}\"",
+    "format:fix": "prettier --write \"**/*.{css,js,json,md,ts,yml,yaml}\"",
+    "husky:lint-staged": "lint-staged",
+    "husky:pre-commit": "run-p husky:lint-staged",
+    "lint": "run-p lint:css lint:ts",
+    "lint:css": "stylelint 'src/**/*.css'",
+    "lint:css:fix": "stylelint --fix 'src/**/*.css'",
+    "lint:fix": "run-p lint:*:fix",
+    "lint:ts": "eslint --resolve-plugins-relative-to \"./node_modules/@ridedott/eslint-config\" \"**/*.ts\"",
+    "lint:ts:fix": "eslint --fix --resolve-plugins-relative-to \"./node_modules/@ridedott/eslint-config\" \"**/*.ts\"",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "test": "jest",
+    "types": "tsc --noEmit"
   },
-  "description": "Search for dogs",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.3",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.3.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^17.0.45",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-redux": "^7.1.24",
+    "@types/redux": "^3.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.4",
+    "axios": "^0.27.2",
+    "redux": "^4.2.0"
+  },
   "devDependencies": {
     "@ridedott/eslint-config": "^1.0.0",
     "@types/axios": "^0.14.0",
@@ -56,23 +92,5 @@
     "*.{css,js,json,md,ts,yaml,yml}": [
       "prettier --write"
     ]
-  },
-  "name": "@ridedott/frontend-assignment-base",
-  "repository": "https://github.com/ridedott/frontend-assignment-base",
-  "scripts": {
-    "format": "prettier --check \"**/*.{css,js,json,md,ts,yml,yaml}\"",
-    "format:fix": "prettier --write \"**/*.{css,js,json,md,ts,yml,yaml}\"",
-    "husky:lint-staged": "lint-staged",
-    "husky:pre-commit": "run-p husky:lint-staged",
-    "lint": "run-p lint:css lint:ts",
-    "lint:css": "stylelint 'src/**/*.css'",
-    "lint:css:fix": "stylelint --fix 'src/**/*.css'",
-    "lint:fix": "run-p lint:*:fix",
-    "lint:ts": "eslint --resolve-plugins-relative-to \"./node_modules/@ridedott/eslint-config\" \"**/*.ts\"",
-    "lint:ts:fix": "eslint --fix --resolve-plugins-relative-to \"./node_modules/@ridedott/eslint-config\" \"**/*.ts\"",
-    "start": "webpack-dev-server --config ./webpack.config.js",
-    "test": "jest",
-    "types": "tsc --noEmit"
-  },
-  "version": "1.0.0"
+  }
 }

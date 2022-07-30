@@ -4,7 +4,7 @@ env:
   node: true
 extends: '@ridedott/eslint-config'
 overrides:
-  - files: ./src/**/*spec.ts
+  - files: ./src/**/*spec.ts*
     rules:
       '@typescript-eslint/no-magic-numbers': 'off'
 parserOptions:
@@ -17,3 +17,6 @@ rules:
   unicorn/filename-case:
     - error
     - case: kebabCase
+  '@typescript-eslint/explicit-function-return-type': 'off'
+  '@typescript-eslint/explicit-module-boundary-types': 'off'
+  '@typescript-eslint/typedef': 'off'

@@ -4,10 +4,17 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-import { App } from './App';
 import { store } from './app/store';
+import { App } from './components/app';
 
-const container = document.querySelector('#root')!;
+const CONTAINER_ID = '#root';
+
+const container = document.querySelector(CONTAINER_ID);
+
+if (container === null) {
+  throw new Error(`Has no react root container! (id: ${CONTAINER_ID})`);
+}
+
 const root = createRoot(container);
 
 root.render(

@@ -1,10 +1,10 @@
 import './file-input.css';
 
 import React, {
+  ChangeEvent,
   forwardRef,
   MutableRefObject,
   useCallback,
-  useRef,
 } from 'react';
 
 interface IFileInputProps {
@@ -13,18 +13,15 @@ interface IFileInputProps {
 
 export const FileInput = forwardRef<HTMLInputElement, IFileInputProps>(
   ({ onChange }, ref) => {
-    const fileRef = useRef<HTMLInputElement | null>(null);
-
-    const onAddFile = useCallback(() => {
+    const onAddFile = useCallback((event: ChangeEvent<HTMLInputElement>) => {
       if (
-        fileRef.current?.files !== null &&
-        fileRef.current?.files !== undefined &&
-        fileRef.current.files.length > 0 &&
-        fileRef.current.files[0] !== null
+        event.target?.files !== null &&
+        event.target.files.length > 0 &&
+        event.target.files[0] !== null
       ) {
-        onChange(fileRef.current.files[0]);
+        onChange(event.target.files[0]);
       }
-    }, [fileRef.current]);
+    }, []);
 
     return (
       <input
@@ -33,8 +30,6 @@ export const FileInput = forwardRef<HTMLInputElement, IFileInputProps>(
         accept="image/png, image/jpeg"
         onChange={onAddFile}
         ref={(node: HTMLInputElement) => {
-          fileRef.current = node;
-
           if (typeof ref === 'function') {
             ref(node);
           } else if (ref !== undefined) {

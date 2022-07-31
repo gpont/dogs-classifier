@@ -17,10 +17,13 @@ export const convertFileToImageData = async (
 
   image.src = imageSrc;
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     image.addEventListener('load', () => {
       ctx.drawImage(image, 0, 0);
       resolve(ctx.getImageData(0, 0, width, height));
     });
+    image.addEventListener('error', () =>
+      reject(new Error('Error image loading')),
+    );
   });
 };

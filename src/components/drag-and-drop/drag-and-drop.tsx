@@ -21,12 +21,7 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = ({ onDropFile }) => {
     }
   }, []);
 
-  const onDragEnter = useCallback((event: DragEvent<HTMLDivElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-  }, []);
-
-  const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
+  const preventDefault = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.stopPropagation();
     event.preventDefault();
   }, []);
@@ -34,8 +29,8 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = ({ onDropFile }) => {
   return (
     <div
       onDrop={onDrop}
-      onDragEnter={onDragEnter}
-      onDragOver={onDragOver}
+      onDragEnter={preventDefault}
+      onDragOver={preventDefault}
       style={{ border: '3px solid black' }}
     >
       <p>

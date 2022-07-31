@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useAppSelector } from '../../app/hooks';
 import { BreedChecker } from '../../features/breed-checker';
-import { breedsSelector } from '../../features/breed-checker/breed-checker-slice';
+import { breedsSelector } from '../../features/breed-checker/slices';
 import { Gallery } from '../../features/gallery';
 
 export const App: React.FC = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Loader } from '../../components/loader';
-import { useGetDogsByBreedQuery } from './dogs-api';
+import { useGetDogsByBreedQuery } from './services';
 
 const useGetImagesOfBreeds = (breeds: string[]) => {
   const images = breeds.map((breed: string) => {

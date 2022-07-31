@@ -1,15 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit/dist/mapBuilders';
 
-import { RootState } from '../../app/store';
-import { checkBreed, parseImgFile } from '../../businessLogic';
-
-interface Breed {
-  className: string;
-  probability: number;
-}
-type Image = string | null;
+import { RootState } from '../../../app/store';
+import { loadFile } from './load-file';
 
 export interface BreedCheckerState {
   breeds: Breed[];
@@ -22,14 +16,6 @@ const initialState: BreedCheckerState = {
   img: null,
   status: 'idle',
 };
-
-export const loadFile = createAsyncThunk(
-  'breedChecker/loadFile',
-  async (file: File) => ({
-    breeds: await checkBreed(file),
-    img: await parseImgFile(file),
-  }),
-);
 
 const byProbability = (first: Breed, second: Breed) =>
   second.probability - first.probability;

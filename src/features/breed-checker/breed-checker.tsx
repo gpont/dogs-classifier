@@ -1,15 +1,13 @@
 import React, { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { DragAndDrop } from '../../components/drag-and-drop';
-import { FileInput } from '../../components/file-input';
-import { Loader } from '../../components/loader';
+import { DragAndDrop, FileInput, Loader } from '../../components';
 import {
   breedsSelector,
   imgSelector,
   loadFile,
   statusSelector,
-} from './breed-checker-slice';
+} from './slices';
 
 export const BreedChecker: React.FC = () => {
   const dispatch = useAppDispatch();

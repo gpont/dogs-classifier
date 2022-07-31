@@ -1,12 +1,8 @@
-import '@tensorflow/tfjs';
+import { parseImgFile } from '../parse-img-file';
 
-import * as mobilenet from '@tensorflow-models/mobilenet';
-
-import { parseImgFile } from './parse-img-file';
-
-const modelPromise = mobilenet.load();
-
-const convertFileToImageData = async (file: File): Promise<ImageData> => {
+export const convertFileToImageData = async (
+  file: File,
+): Promise<ImageData> => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const width = 300;
@@ -28,8 +24,3 @@ const convertFileToImageData = async (file: File): Promise<ImageData> => {
     });
   });
 };
-
-export const checkBreed = async (file: File) =>
-  modelPromise.then(async model =>
-    model.classify(await convertFileToImageData(file)),
-  );

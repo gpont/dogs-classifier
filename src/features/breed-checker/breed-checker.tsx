@@ -1,7 +1,9 @@
+import './breed-checker.css';
+
 import React, { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { DragAndDrop, FileInput, Loader } from '../../components';
+import { DragAndDrop, Loader } from '../../components';
 import {
   breedsSelector,
   imgSelector,
@@ -19,17 +21,14 @@ export const BreedChecker: React.FC = () => {
 
   return (
     <div>
-      <FileInput onChange={onAddFile} />
-      <DragAndDrop onDropFile={onAddFile} />
-      <Loader status={status} />
+      <DragAndDrop onDropFile={onAddFile}>
+        <Loader status={status} />
+        {loadedImg === null ? null : (
+          <img className="main-image" src={loadedImg} />
+        )}
+      </DragAndDrop>
 
-      {loadedImg === null ? null : <img src={loadedImg} />}
-
-      <ul>
-        {breeds.map((breedName: string) => (
-          <li key={breedName}>{breedName}</li>
-        ))}
-      </ul>
+      {breeds.length > 0 ? <div>Breed: {breeds?.[0]}</div> : null}
     </div>
   );
 };

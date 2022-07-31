@@ -1,0 +1,6 @@
+.drag-container {
+  border: 3px dashed #000;
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 6px;
+}

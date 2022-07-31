@@ -1,3 +1,5 @@
+import './gallery.css';
+
 import React from 'react';
 
 import { Loader } from '../../components/loader';
@@ -35,18 +37,25 @@ export const Gallery: React.FC<IGalleryProps> = ({ breeds }) => {
   const { images, isLoading } = useGetImagesOfBreeds(breeds);
 
   return (
-    <div>
+    <div className="gallery-container">
       <Loader status={isLoading === true ? 'loading' : 'success'} />
-      <ul>
-        {images.map(({ data, breed }: { data: string[]; breed: string }) => (
-          <div key={breed}>
-            <span>{breed}</span>
-            {data.map((src: string) => (
-              <img key={src} src={src} />
-            ))}
-          </div>
-        ))}
-      </ul>
+      <div>
+        {images.map(({ data, breed }: { data: string[]; breed: string }) =>
+          data.length > 0 ? (
+            <div>
+              <div className="breed-header">{breed}</div>
+
+              <div className="grid" key={breed}>
+                {data.map((src: string) => (
+                  <div className="image-container" key={src}>
+                    <img className="image" loading="lazy" src={src} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null,
+        )}
+      </div>
     </div>
   );
 };

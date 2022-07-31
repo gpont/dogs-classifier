@@ -1,0 +1,18 @@
+.error {
+  color: #ed2939;
+}
+
+.loader-icon {
+  height: 80px;
+  width: 80px;
+}
+
+.loading {
+  align-items: center;
+  color: #60a0e0;
+  display: flex;
+  fill: #60a0e0;
+  flex-direction: row;
+  height: 80px;
+  justify-content: center;
+}

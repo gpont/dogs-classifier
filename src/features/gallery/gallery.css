@@ -1,0 +1,23 @@
+.gallery-container {
+  margin-left: 36px;
+  margin-right: 36px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.breed-header {
+  font-size: 32px;
+  text-transform: capitalize;
+}
+
+.image-container {
+  margin: 6px;
+  width: 200px;
+}
+
+.image {
+  width: 200px;
+}

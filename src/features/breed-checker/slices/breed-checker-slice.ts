@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit/dist/mapBuilders';
 
-import { RootState } from '../../../app/store';
 import { loadFile } from './load-file';
 
 export interface BreedCheckerState {
@@ -34,8 +33,8 @@ export const breedCheckerSlice = createSlice({
         ) => {
           state.breeds = Array.from<Breed>(action.payload.breeds)
             .sort(byProbability)
-            .map(breed => ({
-              className: breed.className.toLowerCase(),
+            .map((breed: Breed) => ({
+              className: breed.className.toLowerCase().split(', ')[0],
               probability: breed.probability,
             }));
           state.img = action.payload.img;
@@ -54,9 +53,3 @@ export const breedCheckerSlice = createSlice({
 });
 
 export default breedCheckerSlice.reducer;
-
-export const breedsSelector = (state: RootState) =>
-  state.breedChecker.breeds.map(({ className }: Breed) => className);
-
-export const imgSelector = (state: RootState) => state.breedChecker.img;
-export const statusSelector = (state: RootState) => state.breedChecker.status;

@@ -14,7 +14,7 @@ const IMAGES_COUNT_SLICE = 10;
 
 export const Gallery: React.FC<IGalleryProps> = ({ breeds }) => {
   const [breed] = breeds;
-  const { images, isLoading } = useGetImagesOfBreed(breed);
+  const { images, isLoading, isError } = useGetImagesOfBreed(breed);
 
   const [imagesSlice, setImagesSlice] = useState<string[]>([]);
 
@@ -36,27 +36,39 @@ export const Gallery: React.FC<IGalleryProps> = ({ breeds }) => {
     }
   }, [images, imagesSlice]);
 
-  return images.length > 0 ? (
+  return (
     <div className="gallery-container">
-      <Loader status={isLoading === true ? 'loading' : 'success'} />
+      <Loader
+        status={
+          isError === true
+            ? 'failed'
+            : isLoading === true
+            ? 'loading'
+            : 'success'
+        }
+      />
       <div>
         <div className="breed-header">{breed}</div>
 
-        <InfiniteScroll
-          dataLength={imagesSlice.length}
-          next={fetchMoreData}
-          hasMore={true}
-          loader={<Loader status={images.length === 0 ? 'idle' : 'loading'} />}
-        >
-          <div className="grid">
-            {imagesSlice.map((src: string) => (
-              <div className="image-container" key={src}>
-                <img className="image" loading="lazy" src={src} />
-              </div>
-            ))}
-          </div>
-        </InfiniteScroll>
+        {images.length > 0 ? (
+          <InfiniteScroll
+            dataLength={imagesSlice.length}
+            next={fetchMoreData}
+            hasMore={true}
+            loader={
+              <Loader status={images.length === 0 ? 'idle' : 'loading'} />
+            }
+          >
+            <div className="grid">
+              {imagesSlice.map((src: string) => (
+                <div className="image-container" key={src}>
+                  <img className="image" loading="lazy" src={src} />
+                </div>
+              ))}
+            </div>
+          </InfiniteScroll>
+        ) : null}
       </div>
     </div>
-  ) : null;
+  );
 };

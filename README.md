@@ -1,19 +1,30 @@
-# Front End Assignment Boilerplate
+# Test project for Dott
 
-This project can serve as a baseline for your front end assignment. Take some
-time to familiarize yourself with the structure, configuration and scripts.
-Depending on how you choose to implement your solution you may find that you
-need to delete or change parts of this base setup — feel free to do so. We have
-set this project up create a more accurate image of what our expectations are,
-and to help you get started. If you feel like it does not help you on your way,
-feel free to discard it and create your own. However, it might prove useful to
-look through this boilerplate regardless to get a better idea of our
-expectations.
+The test project is a dog breed classifier. You can upload a photo of a dog to
+the application, the application will determine the breed of the dog (using a
+pre-trained model from
+https://github.com/tensorflow/tfjs-models/tree/master/mobilenet and
+tensorflow.js), and also show a gallery of photos of dogs of the same breed(api
+with images of dogs: https://dog.ceo/dog-api/). The gallery will be lazy-loaded
+and infinitely scrollable.
 
-Simply clone this project and get started. You can replace this readme with your
-own when you are finished.
+## Hosting
 
-## Available scripts
+You can see the running application on Heroku at url: TODO
+
+## Usage
+
+### Installation
+
+For installation run commands:
+
+```bash
+git clone https://github.com/gpont/dogs-classifier.git
+cd ./dogs-classifier
+npm i
+```
+
+### Start
 
 To start the project, simply run:
 
@@ -21,17 +32,33 @@ To start the project, simply run:
 npm run start
 ```
 
-To run the linter, execute the command:
+### Other useful commands
+
+Linting:
 
 ```bash
 npm run lint
 ```
-
-optionally, you can append `:fix` to automatically fix any auto-fixable linting
-issues.
 
 To test you application, use:
 
 ```bash
 npm run test
 ```
+
+## Architecture
+
+The application is written on react with redux and uses the architectural
+pattern of unidirectional data flow. The redux toolkit was also used to reduce
+redux boilerplate and redux-thunks for working with side effects.
+
+The logic of determining the breed is taken out separately in
+[./src/businessLogic](./src/businessLogic). The application uses the principle
+of isolated features that encapsulate the view and the dependencies of a
+particular view (for example, a slice of the corresponding store or an API
+interaction service). The types of the domain area are also separately placed in
+the [./src/@types/domain](./src/@types/domain)
+
+## Authors
+
+- [@gpont](https://www.github.com/gpont)

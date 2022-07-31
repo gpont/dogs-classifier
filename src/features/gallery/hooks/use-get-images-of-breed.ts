@@ -13,6 +13,7 @@ export const useGetImagesOfBreed = (breed: string) => {
   return {
     breed,
     images: isError === true ? [] : data?.message ?? [],
+    isError,
     isLoading: isLoading === true || isFetching === true,
   };
 };

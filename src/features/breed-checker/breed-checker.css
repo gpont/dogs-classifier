@@ -1,3 +1,9 @@
 .main-image {
-  max-width: 600px;
+  max-width: 300px;
+}
+
+@media screen and (min-width: 600px) {
+  .main-image {
+    max-width: 600px;
+  }
 }

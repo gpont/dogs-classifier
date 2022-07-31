@@ -15,7 +15,7 @@ export const App: React.FC = () => {
       <header className="App-header">
         <BreedChecker />
 
-        <Gallery breeds={breeds} />
+        {breeds.length > 0 ? <Gallery breeds={breeds} /> : null}
       </header>
     </div>
   );

@@ -1,61 +1,62 @@
 import './gallery.css';
 
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { Loader } from '../../components/loader';
-import { useGetDogsByBreedQuery } from './services';
-
-const useGetImagesOfBreeds = (breeds: string[]) => {
-  const images = breeds.map((breed: string) => {
-    const { data, isLoading, isFetching } = useGetDogsByBreedQuery(breed, {
-      pollingInterval: 20000,
-      refetchOnMountOrArgChange: true,
-      skip: false,
-    });
-
-    return {
-      breed,
-      data: data?.message ?? [],
-      isLoading: isLoading === true || isFetching === true,
-    };
-  });
-
-  return {
-    images,
-    isLoading: images.reduce(
-      (acc: boolean, { isLoading }: { isLoading: boolean }) => isLoading || acc,
-      false,
-    ),
-  };
-};
+import { useGetImagesOfBreed } from './hooks';
 
 interface IGalleryProps {
   breeds: string[];
 }
 
-export const Gallery: React.FC<IGalleryProps> = ({ breeds }) => {
-  const { images, isLoading } = useGetImagesOfBreeds(breeds);
+const IMAGES_COUNT_SLICE = 10;
 
-  return (
+export const Gallery: React.FC<IGalleryProps> = ({ breeds }) => {
+  const [breed] = breeds;
+  const { images, isLoading } = useGetImagesOfBreed(breed);
+
+  const [imagesSlice, setImagesSlice] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (images.length > 0 || (images.length === 0 && imagesSlice.length > 0)) {
+      setImagesSlice(images.slice(0, IMAGES_COUNT_SLICE));
+    }
+  }, [images]);
+
+  const fetchMoreData = useCallback(() => {
+    if (imagesSlice.length < images.length) {
+      setImagesSlice([
+        ...imagesSlice,
+        ...images.slice(
+          imagesSlice.length,
+          imagesSlice.length + IMAGES_COUNT_SLICE,
+        ),
+      ]);
+    }
+  }, [images, imagesSlice]);
+
+  return images.length > 0 ? (
     <div className="gallery-container">
       <Loader status={isLoading === true ? 'loading' : 'success'} />
       <div>
-        {images.map(({ data, breed }: { data: string[]; breed: string }) =>
-          data.length > 0 ? (
-            <div>
-              <div className="breed-header">{breed}</div>
+        <div className="breed-header">{breed}</div>
 
-              <div className="grid" key={breed}>
-                {data.map((src: string) => (
-                  <div className="image-container" key={src}>
-                    <img className="image" loading="lazy" src={src} />
-                  </div>
-                ))}
+        <InfiniteScroll
+          dataLength={imagesSlice.length}
+          next={fetchMoreData}
+          hasMore={true}
+          loader={<Loader status={images.length === 0 ? 'idle' : 'loading'} />}
+        >
+          <div className="grid">
+            {imagesSlice.map((src: string) => (
+              <div className="image-container" key={src}>
+                <img className="image" loading="lazy" src={src} />
               </div>
-            </div>
-          ) : null,
-        )}
+            ))}
+          </div>
+        </InfiniteScroll>
       </div>
     </div>
-  );
+  ) : null;
 };

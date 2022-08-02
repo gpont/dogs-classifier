@@ -1,8 +1,8 @@
-/*
- * Describe('check-breed', () => {
- *   it('should be rendered', () => {
- *     expect.assertions(1);
- *     expect(true).toBe(true);
- *   });
- * });
- */
+import { checkBreed } from './check-breed';
+
+describe('check-breed', () => {
+  it('should be check breed', () => {
+    expect.assertions(1);
+    expect(typeof checkBreed(new File([], 'test.png'))).toBe('object');
+  });
+});

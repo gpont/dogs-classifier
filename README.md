@@ -10,7 +10,8 @@ and infinitely scrollable.
 
 ## Hosting
 
-You can see the running application on Heroku at url: TODO
+You can see the running application on Heroku at url:
+https://dogs-classifier.herokuapp.com/
 
 ## Usage
 

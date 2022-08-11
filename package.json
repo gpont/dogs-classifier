@@ -22,7 +22,7 @@
     "types": "tsc --noEmit"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.8.3",
+    "@reduxjs/toolkit": "^1.8.4",
     "@tensorflow-models/mobilenet": "^2.1.0",
     "@tensorflow/tfjs": "^3.19.0",
     "@testing-library/jest-dom": "^5.16.4",
